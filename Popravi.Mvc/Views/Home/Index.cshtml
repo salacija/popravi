@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Home Page";
+    @model Popravi.Mvc.Models.RolesViewModel;
+}
+
+    @if(Model.Roles.Any())
+    {
+        <h1>@Model.PageName</h1>
+        <table class="table table-striped table-bordered">
+            <tr>
+                <th>ID</th> <th>Name</th>
+            </tr>
+            @foreach(var r in Model.Roles)
+            {
+                <tr>
+                    <td>@r.Id</td>
+                    <td>@r.Name</td>
+                </tr>
+            }
+        </table>
+    } else
+    {
+        <h1>Currently there are no roles.</h1>
+    }
+
