@@ -3,23 +3,20 @@
     @model Popravi.Mvc.Models.RolesViewModel;
 }
 
-    @if(Model.Roles.Any())
-    {
-        <h1>@Model.PageName</h1>
-        <table class="table table-striped table-bordered">
-            <tr>
-                <th>ID</th> <th>Name</th>
-            </tr>
-            @foreach(var r in Model.Roles)
-            {
-                <tr>
-                    <td>@r.Id</td>
-                    <td>@r.Name</td>
-                </tr>
-            }
-        </table>
-    } else
-    {
-        <h1>Currently there are no roles.</h1>
-    }
+@if (TempData["success"] != null)
+{
+    <div class="alert alert-success">
+        <strong> @TempData["success"] </strong>
+    </div>
+}
+
+@if (TempData["error"] != null)
+{
+    <div class="alert alert-danger">
+        <strong> @TempData["error"] </strong>
+    </div>
+
+}
+
+<h1>Ovo je moja pocetna strana</h1>
 

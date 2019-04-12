@@ -1,0 +1,54 @@
+﻿
+@{
+    @using Popravi.Business.Responses
+    @using Popravi.Mvc.Models
+    ViewData["Title"] = "Index";
+    @model Popravi.Mvc.Models.UsersViewModel;
+
+    var count = 1;
+}
+<style>
+    .aktivan{
+        background-color : orangered
+    }
+</style>
+
+@if (Model.Users.Items.Any())
+{
+    <h1>@Model.PageName</h1>
+    <table class="table table-striped table-bordered">
+        <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>UserName</th>
+            <th>E-mail</th>
+            <th>Phone</th>
+        </tr>
+        @foreach (var u in Model.Users.Items)
+        {
+            <tr>
+                <td>@count @{ count++; }</td>
+                <td>@u.FirstName @u.LastName</td>
+                <td>@u.UserName</td>
+                <td>@u.Email</td>
+                <td>@u.Phone</td>
+            </tr>
+        }
+    </table>
+    @for (var a = 1; a <= Model.Users.PagesNumber; a++)
+    {
+        if (Model.Users.CurrentPage == a)
+        {
+            <a class=" aktivan btn btn-sm" asp-action="index" asp-route-pageNumber="@a">@a</a>
+        }
+        else
+        {
+            <a class="btn btn-warning btn-sm" asp-action="index" asp-route-pageNumber="@a">@a</a>
+        }
+    }
+}
+else
+{
+    <h1>Trenutno nema zapisa o korisnicima.</h1>
+}
+

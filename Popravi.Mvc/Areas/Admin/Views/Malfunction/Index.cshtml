@@ -1,0 +1,79 @@
+﻿
+@{
+    @using Popravi.Business.DataTransfer
+    @using Popravi.Business.Responses
+
+    ViewData["Title"] = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/Partials/_Layout.cshtml";
+    @model PagedResponse<MalfunctionDto>
+    @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+}
+
+<a asp-action="create"><button class="btn btn-warning">Dodaj kvar</button></a>
+
+@if (TempData["success"] != null)
+{
+    <div class="alert alert-primary">
+        <strong> @TempData["success"] </strong>
+    </div>
+}
+
+@if (TempData["error"] != null)
+{
+    <div class="alert alert-danger">
+        <strong> @TempData["error"] </strong>
+    </div>
+
+}
+
+<div class="table-responsive">
+    <table class="table">
+        <thead class=" text-primary">
+            <tr><th>#</th><th>Naziv kvara</th><th>Izmena</th><th>Brisanje</th></tr>
+        </thead>
+        <tbody>
+            @{ var i = 1; }
+            @foreach (var malfunction in Model.Items)
+            {
+                <tr>
+                    <td>@i @{ i++; }</td>
+                    <td>@malfunction.Name</td>
+                    <td><a asp-action="edit" asp-route-id="@malfunction.Id"><button class="btn btn-sm btn-bd-yellow"><i class="fa fa-pencil"></i></button></a></td>
+                    <td>
+                        <a asp-area="admin" asp-controller="malfunction" asp-action="delete" asp-route-id="@malfunction.Id" class="delete">
+                            <button class="btn btn-danger btn-sm"><i class="fa fa-trash"></i></button>
+                        </a>
+                    </td>
+                </tr>
+
+            }
+        </tbody>
+    </table>
+
+    @for (var a = 1; a <= Model.PagesNumber; a++)
+    {
+        if (Model.CurrentPage == a)
+        {
+            <a class="btn btn-warning btn-sm" asp-action="index" asp-route-pageNumber="@a">@a</a>
+        }
+        else
+        {
+            <a class="btn btn-default btn-sm" asp-action="index" asp-route-pageNumber="@a">@a</a>
+        }
+    }
+
+</div>
+
+<script>
+    document.querySelectorAll(".delete").forEach(function (element) {
+
+        element.addEventListener("click", function (e) {
+
+            let response = confirm("Da li ste sigurni da zelite da obrisete kvar?");
+
+            if (!response)
+                e.preventDefault();
+        })
+    });
+</script>

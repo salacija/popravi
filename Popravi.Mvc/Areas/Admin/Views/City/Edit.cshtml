@@ -1,0 +1,50 @@
+﻿
+@{
+    @model Popravi.Business.DataTransfer.CityDto
+    ViewData["Title"] = "Edit";
+    Layout = "~/Areas/Admin/Views/Shared/Partials/_Layout.cshtml";
+    @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+
+}
+
+<h1>Izmena Grada</h1>
+
+@if (TempData["success"] != null)
+{
+    <div class="alert alert-success">
+        <strong> @TempData["success"] </strong>
+    </div>
+}
+
+@if (TempData["error"] != null)
+{
+    <div class="alert alert-danger">
+        <strong> @TempData["error"] </strong>
+    </div>
+
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" asp-method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ZipCode" class="control-label"></label>
+                <input asp-for="ZipCode" class="form-control" />
+                <span asp-validation-for="ZipCode" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Sacuvaj izmene" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Povratak na listu</a>
+</div>

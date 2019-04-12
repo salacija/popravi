@@ -1,0 +1,46 @@
+﻿@model Popravi.Business.DataTransfer.CreateLocationDto
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/Partials/_Layout.cshtml";
+    @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+}
+
+<h1>Nova lokacija</h1>
+
+@if (TempData["error"] != null)
+{
+    <div class="alert alert-danger">
+        <strong> @TempData["error"] </strong>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="@Model.Name" class="control-label"></label>
+                <input asp-for="@Model.Name" name="Name" class="form-control" />
+                <span asp-validation-for="@Model.Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label for="CityId" class="control-label"></label>
+                <select name="CityId" id="CityId" class="form-control">
+                    <option value="0">Izaberite...</option>
+                    @foreach (var c in ViewBag.Cities)
+                    {
+                        <option value="@c.Id">@c.Name</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Dodaj" class="btn btn-default" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Povratak na Listu</a>
+</div>
+

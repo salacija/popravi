@@ -1,0 +1,41 @@
+﻿
+@{
+    ViewData["Title"] = "Profile";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+}
+
+@using Popravi.Mvc;
+@using Popravi.Business.DataTransfer.User;
+@model Popravi.Business.DataTransfer.UserDto
+
+<h1>Dobrodosli @Model.FirstName @Model.LastName!</h1>
+<p>Osnovni podaci:</p>
+
+@if (TempData["success"] != null)
+{
+    <div class="alert alert-success">
+        <strong> @TempData["success"] </strong>
+    </div>
+}
+
+@if (TempData["error"] != null)
+{
+    <div class="alert alert-danger">
+        <strong> @TempData["error"] </strong>
+    </div>
+
+}
+
+<li>Ime: @Model.FirstName</li>
+<li>Prezime: @Model.LastName</li>
+<li>E-mail adresa: @Model.Email</li>
+<li>Korisnicko ime: @Model.UserName</li>
+<li>Broj telefona: @Model.Phone</li>
+
+<br />
+
+<a asp-action="edit"><button class="btn btn-danger">Izmeni podatke</button></a>
+<br />
+<br />
+<a asp-action="editpassword"><button class="btn btn-danger">Promeni lozinku</button></a>

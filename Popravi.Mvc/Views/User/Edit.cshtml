@@ -1,0 +1,46 @@
+﻿
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    @model Popravi.Business.DataTransfer.UserDto
+}
+
+<h1>Izmena podataka</h1>
+
+<form method="post" asp-action="Edit">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+    <div class="form-group row">
+        <label asp-for="FirstName" class="col-md-4 col-form-label text-md-right">Ime</label>
+        <div class="col-md-6">
+            <input asp-for="FirstName" type="text" id="user_name" class="form-control" name="FirstName">
+            <span asp-validation-for="FirstName" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="LastName" class="col-md-4 col-form-label text-md-right">Prezime</label>
+        <div class="col-md-6">
+            <input asp-for="LastName" type="text" id="user_name" class="form-control" name="LastName">
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="UserName" class="col-md-4 col-form-label text-md-right">Korisnicko ime</label>
+        <div class="col-md-6">
+            <input asp-for="UserName" type="text" id="user_name" class="form-control" name="UserName">
+            <span asp-validation-for="UserName" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label asp-for="Phone" class="col-md-4 col-form-label text-md-right">Telefon</label>
+        <div class="col-md-6">
+            <input asp-for="Phone" type="text" id="password" class="form-control" name="Phone">
+            <span asp-validation-for="Phone" class="text-danger"></span>
+        </div>
+    </div>
+    <div class="col-md-6 offset-md-4">
+        <button type="submit" class="btn btn-primary">
+            Izmeni podatke
+        </button>
+    </div>
+</form>

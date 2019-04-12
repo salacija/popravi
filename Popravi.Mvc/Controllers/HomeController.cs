@@ -16,14 +16,9 @@ namespace Popravi.Mvc.Controllers
     {
         public IActionResult Index()
         {
-            var vm = new RolesViewModel();
-            var context = new PopraviDbContext();
+            
 
-            IRoleService svc = new EfRoleService(context);
-
-            vm.Roles = svc.GetRoles();
-
-            return View(vm);
+            return View();
         }
     }
 }

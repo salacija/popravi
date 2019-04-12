@@ -7,6 +7,9 @@
   <ItemGroup>
     <Compile Remove="Migrations\20190309220554_AddedRole.cs" />
     <Compile Remove="Migrations\20190309220554_AddedRole.Designer.cs" />
+    <Compile Remove="Migrations\20190310174048_Users table.cs" />
+    <Compile Remove="Migrations\20190311151412_Created City.cs" />
+    <Compile Remove="Migrations\20190311183620_Added Address table.cs" />
   </ItemGroup>
 
   <ItemGroup>

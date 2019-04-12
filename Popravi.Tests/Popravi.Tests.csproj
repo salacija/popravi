@@ -15,11 +15,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Unit\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <ProjectReference Include="..\Popravi.DataAccess\Popravi.DataAccess.csproj" />
+    <ProjectReference Include="..\Popravi.Mvc\Popravi.Mvc.csproj" />
   </ItemGroup>
 
 </Project>
