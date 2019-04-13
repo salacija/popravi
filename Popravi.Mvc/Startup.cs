@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -40,7 +41,9 @@ namespace Popravi.Mvc
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSession();
 
+            //123
             services.AddDbContext<PopraviDbContext>(options => options.UseSqlServer(@"Data Source =.\SQLEXPRESS; Initial Catalog = Popravi; Integrated Security = True"));
+            services.AddAutoMapper(typeof(EfCityService).GetType().Assembly); // u typeof se postavlja bilo koji tip definisan u Business projektu
 
             services.AddTransient<IUserService, EfUserService>();
             services.AddTransient<ICityService, EfCityService>();

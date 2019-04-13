@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using Popravi.Business.DataTransfer;
 using Popravi.Business.DataTransfer.User;
 using Popravi.Business.Exceptions;
@@ -15,9 +16,12 @@ namespace Popravi.Business.Services.EfServices
 {
     public class EfUserService : BaseEfService, IUserService
     {
-        
 
-        public EfUserService(PopraviDbContext context) : base(context) { }
+        private readonly IMapper _mapper;
+        public EfUserService(PopraviDbContext context, IMapper mapper) : base(context)
+        {
+            _mapper = mapper;
+        }
 
         public PagedResponse<UserDto> GetAll(int pageNumber, int perPage = 2)
         {
@@ -115,15 +119,7 @@ namespace Popravi.Business.Services.EfServices
             var user = Context.Users.Find(id);
             if(user != null)
             {
-                return new UserDto
-                {
-                    Email = user.Email,
-                    FirstName = user.FirstName,
-                    LastName = user.LastName,
-                    Phone = user.Phone,
-                    UserName = user.Username,
-                    Id = user.Id
-                };
+                return _mapper.Map<UserDto>(user);
             }
             throw new EntityNotFoundException($"Ne postoji korisnik.");
         }
