@@ -16,16 +16,15 @@ namespace Popravi.Mvc.Areas.Admin.Controllers
     {
         private readonly ICityService _service;
 
-        public CityController()
+        public CityController(ICityService service)
         {
-            var context = new PopraviDbContext();
-            _service = new EfCityService(context);
+            _service = service;
         }
 
         // GET: City
         public IActionResult Index(int pageNumber = 1)
         {
-            return View(_service.GetAllCities(pageNumber, 5));
+            return View(_service.GetAll(pageNumber, 5));
         }
 
         // GET: Cities/Details/5
@@ -51,7 +50,7 @@ namespace Popravi.Mvc.Areas.Admin.Controllers
             try
             {
 
-                _service.AddCity(dto);
+                _service.Add(dto);
                 TempData["success"] = "Grad je uspesno dodat.";
                 return RedirectToAction(nameof(Index));
             }
@@ -70,7 +69,7 @@ namespace Popravi.Mvc.Areas.Admin.Controllers
         // GET: Cities/Edit/5
         public ActionResult Edit(int id)
         {
-            var city = _service.FindCity(id);
+            var city = _service.Find(id);
             return View(city);
         }
 
@@ -84,7 +83,7 @@ namespace Popravi.Mvc.Areas.Admin.Controllers
 
             try
             {
-                _service.UpdateCity(id,dto);
+                _service.Update(id,dto);
                 TempData["success"] = "Uspesna izmena grada.";
                 return RedirectToAction("index");
             }
@@ -105,7 +104,7 @@ namespace Popravi.Mvc.Areas.Admin.Controllers
         {
             try
             {
-                _service.DeleteCity(id);
+                _service.Delete(id);
                 TempData["success"] = "Uspesno obrisan grad.";
             }
             catch

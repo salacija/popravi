@@ -16,7 +16,7 @@ namespace Popravi.Business.Services.EfServices
     {
         public EfLocationService(PopraviDbContext context) : base(context) { }
 
-        public void AddLocation(CreateLocationDto dto)
+        public void Add(CreateLocationDto dto)
         {
             if (Context.Locations.Any(l => l.Name.ToLower() == dto.Name.ToLower()))
                 throw new EntityAlreadyExistsException("Lokacija pod ovim nazivom vec postoji.");
@@ -30,7 +30,7 @@ namespace Popravi.Business.Services.EfServices
             Context.SaveChanges();
         }
 
-        public PagedResponse<LocationDto> GetAllLocations(int pageNumber, int perPage = 5)
+        public PagedResponse<LocationDto> GetAll(int pageNumber, int perPage = 5)
         {
             var ukupno = Context.Locations.Count();
 
@@ -56,7 +56,7 @@ namespace Popravi.Business.Services.EfServices
 
        
 
-        public void DeleteLocation(int id)
+        public void Delete(int id)
         {
             var location = Context.Locations.Find(id);
             
@@ -69,7 +69,7 @@ namespace Popravi.Business.Services.EfServices
                 throw new EntityNotFoundException("Trazena lokacija ne postoji.");
         }
 
-        public void UpdateLocation(int id, CreateLocationDto dto)
+        public void Update(int id, CreateLocationDto dto)
         {
             var location = Context.Locations.Where(l => l.Id == id).FirstOrDefault();
 
@@ -84,7 +84,7 @@ namespace Popravi.Business.Services.EfServices
                 throw new EntityNotFoundException("Lokacija ne postoji.");
         }
 
-        public LocationDto FindLocation(int id)
+        public LocationDto Find(int id)
         {
             var location = Context.Locations.Include(l => l.City).Where(l => l.Id == id).FirstOrDefault();
             if (location != null)
@@ -95,6 +95,11 @@ namespace Popravi.Business.Services.EfServices
                     Name = location.Name
                 };
             throw new EntityNotFoundException("Trazena lokacija ne postoji.");
+        }
+
+        public IEnumerable<LocationDto> GetAll()
+        {
+            throw new NotImplementedException();
         }
     }
 }

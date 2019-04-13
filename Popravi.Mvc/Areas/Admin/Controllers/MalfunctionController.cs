@@ -16,16 +16,15 @@ namespace Popravi.Mvc.Areas.Admin.Controllers
     {
         private readonly IMalfunctionService _service;
 
-        public MalfunctionController()
+        public MalfunctionController(IMalfunctionService service)
         {
-            var context = new PopraviDbContext();
-            _service = new EfMalfunctionService(context);
+            _service = service;
         }
 
         // GET: Malfunction
         public ActionResult Index(int pageNumber = 1)
         {
-            return View(_service.GetAllMalfunctions(pageNumber, 5));
+            return View(_service.GetAll(pageNumber, 5));
         }
 
         // GET: Malfunction/Details/5
@@ -50,7 +49,7 @@ namespace Popravi.Mvc.Areas.Admin.Controllers
 
             try
             {
-                _service.AddMalfunction(dto);
+                _service.Add(dto);
                 TempData["success"] = "Kvar je uspesno dodat.";
                 return RedirectToAction("index");
              }
@@ -69,7 +68,7 @@ namespace Popravi.Mvc.Areas.Admin.Controllers
         // GET: Malfunction/Edit/5
         public ActionResult Edit(int id)
         {
-            var malfunction = _service.FindMalfunction(id);
+            var malfunction = _service.Find(id);
             return View(malfunction);
         }
 
@@ -83,7 +82,7 @@ namespace Popravi.Mvc.Areas.Admin.Controllers
 
             try
             {
-                _service.UpdateMalfunction(id, dto);
+                _service.Update(id, dto);
                 TempData["success"] = "Uspesna izmena kvara.";
                 return RedirectToAction(nameof(Index));
             }
@@ -104,7 +103,7 @@ namespace Popravi.Mvc.Areas.Admin.Controllers
         {
             try
             {
-                _service.DeleteMalfunction(id);
+                _service.Delete(id);
                 TempData["success"] = "Uspesno obrisan kvar.";
             }
             catch

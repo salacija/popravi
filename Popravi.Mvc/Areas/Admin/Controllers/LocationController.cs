@@ -17,19 +17,17 @@ namespace Popravi.Mvc.Areas.Admin.Controllers
     {
         private readonly ILocationService _service;
         private readonly ICityService _cityService;
-        private PopraviDbContext context;
 
-        public LocationController()
+        public LocationController(ILocationService locationService, ICityService cityService)
         {
-             context = new PopraviDbContext();
-            _service = new EfLocationService(context);
-            _cityService = new EfCityService(context);
+            _service = locationService;
+            _cityService = cityService;
         }
 
         // GET: Location
         public IActionResult Index(int perPage = 5, int pageNumber = 1)
         {
-            return View(_service.GetAllLocations(pageNumber, perPage));
+            return View(_service.GetAll(pageNumber, perPage));
         }
 
         // GET: Location/Details/5
@@ -41,7 +39,7 @@ namespace Popravi.Mvc.Areas.Admin.Controllers
         // GET: Location/Create
         public ActionResult Create()
         {
-            ViewBag.Cities = _cityService.GetAllCities();
+            ViewBag.Cities = _cityService.GetAll();
             return View();
         }
 
@@ -50,14 +48,14 @@ namespace Popravi.Mvc.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult Create(CreateLocationDto dto)
         {
-            ViewBag.Cities = _cityService.GetAllCities();
+            ViewBag.Cities = _cityService.GetAll();
 
             if (!ModelState.IsValid)
                 return View(dto);
 
             try
             {
-                _service.AddLocation(dto);
+                _service.Add(dto);
                 TempData["success"] = "Lokacija uspesno dodata.";
                 return RedirectToAction("index");
             }
@@ -77,8 +75,8 @@ namespace Popravi.Mvc.Areas.Admin.Controllers
         public ActionResult Edit(int id)
         {
             var vm = new EditLocationViewModel();
-            vm.Cities = _cityService.GetAllCities();
-            vm.Location = _service.FindLocation(id);
+            vm.Cities = _cityService.GetAll();
+            vm.Location = _service.Find(id);
             return View(vm);
         }
 
@@ -92,7 +90,7 @@ namespace Popravi.Mvc.Areas.Admin.Controllers
 
             try
             {
-                _service.UpdateLocation(id, dto);
+                _service.Update(id, dto);
                 TempData["success"] = "Uspesna izmena lokacije.";
                 return RedirectToAction("index");
             }
@@ -108,7 +106,7 @@ namespace Popravi.Mvc.Areas.Admin.Controllers
         {
             try
             {
-                _service.DeleteLocation(id);
+                _service.Delete(id);
                 TempData["success"] = "Uspesno obrisana lokacija.";
             }
             catch

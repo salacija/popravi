@@ -15,7 +15,7 @@ namespace Popravi.Business.Services.EfServices
     {
         public EfCityService(PopraviDbContext context) : base(context) { }
 
-        public PagedResponse<CityDto> GetAllCities(int pageNumber, int perPage = 5)
+        public PagedResponse<CityDto> GetAll(int pageNumber, int perPage = 5)
         {
             var ukupno = Context.Cities.Count();
 
@@ -40,7 +40,7 @@ namespace Popravi.Business.Services.EfServices
             };
         }
 
-        public void AddCity(CityDto dto)
+        public void Add(CityDto dto)
         {
             if (Context.Cities.Any(c => c.Name.ToLower() == dto.Name.ToLower()))
                 throw new EntityAlreadyExistsException("Grad pod ovim imenom vec postoji.");
@@ -54,7 +54,7 @@ namespace Popravi.Business.Services.EfServices
             Context.SaveChanges();
         }
 
-        public void DeleteCity(int id)
+        public void Delete(int id)
         {
             var city = Context.Cities.Find(id);
 
@@ -69,7 +69,7 @@ namespace Popravi.Business.Services.EfServices
             }
         }
 
-        public IEnumerable<CityDto> GetAllCities()
+        public IEnumerable<CityDto> GetAll()
         {
             return Context.Cities.Select(c => new CityDto
             {
@@ -79,7 +79,7 @@ namespace Popravi.Business.Services.EfServices
             }).ToList();
         }
 
-        public void UpdateCity(int id, CityDto dto)
+        public void Update(int id, CityDto dto)
         {
             var city = Context.Cities.Where(c => c.Id == id).FirstOrDefault();
 
@@ -94,7 +94,7 @@ namespace Popravi.Business.Services.EfServices
                 throw new EntityNotFoundException("Trazeni grad ne postoji.");
         }
 
-        public CityDto FindCity(int id)
+        public CityDto Find(int id)
         {
             var city = Context.Cities.Find(id);
             if (city != null)

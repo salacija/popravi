@@ -6,13 +6,7 @@ using System.Text;
 
 namespace Popravi.Business.Services.Interfaces
 {
-    public interface ILocationService
+    public interface ILocationService : ICrudService<LocationDto, CreateLocationDto, CreateLocationDto>
     {
-        PagedResponse<LocationDto> GetAllLocations(int pageNumber, int perPage);
-        void DeleteLocation(int id);
-        void UpdateLocation(int id, CreateLocationDto dto);
-        LocationDto FindLocation(int id);
-        void AddLocation(CreateLocationDto dto);
-
     }
 }

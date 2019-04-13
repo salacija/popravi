@@ -7,13 +7,9 @@ using System.Text;
 
 namespace Popravi.Business.Services.Interfaces
 {
-   public interface IUserService
+   public interface IUserService : ICrudService<UserDto, RegisterUserDto, UserDto>
     {
-        PagedResponse<UserDto> GetAllUsers(int pageNumber, int perPage);
-        void RegisterUser(RegisterUserDto user);
         LoggedUserDto FindUser(string username, string password);
-        UserDto FindById(int id);
-        void UpdateUser(UserDto dto, int id);
         void UpdateUserPassword(string password, int id);
         bool IsOldPasswordCorrect(string password, int id);
         void ActivateUser(string activationCode);

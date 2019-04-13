@@ -6,13 +6,8 @@ using System.Text;
 
 namespace Popravi.Business.Services.Interfaces
 {
-    public interface ICityService
+    public interface ICityService : ICrudService<CityDto, CityDto, CityDto>
     {
-        PagedResponse<CityDto> GetAllCities(int pageNumber, int perPage);
-        IEnumerable<CityDto> GetAllCities();
-        void AddCity(CityDto dto);
-        void DeleteCity(int id);
-        void UpdateCity(int id, CityDto dto);
-        CityDto FindCity(int id);
+
     }
 }

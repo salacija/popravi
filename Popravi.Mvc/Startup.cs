@@ -7,8 +7,12 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Popravi.Business.Services.EfServices;
+using Popravi.Business.Services.Interfaces;
+using Popravi.DataAccess;
 
 namespace Popravi.Mvc
 {
@@ -35,6 +39,14 @@ namespace Popravi.Mvc
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
             services.AddSession();
+
+            services.AddDbContext<PopraviDbContext>(options => options.UseSqlServer(@"Data Source =.\SQLEXPRESS; Initial Catalog = Popravi; Integrated Security = True"));
+
+            services.AddTransient<IUserService, EfUserService>();
+            services.AddTransient<ICityService, EfCityService>();
+            services.AddTransient<ILocationService, EfLocationService>();
+            services.AddTransient<IMalfunctionService, EfMalfunctionService>();
+            services.AddTransient<IRoleService, EfRoleService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

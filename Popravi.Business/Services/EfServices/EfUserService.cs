@@ -15,11 +15,11 @@ namespace Popravi.Business.Services.EfServices
 {
     public class EfUserService : BaseEfService, IUserService
     {
-        private static int RoleUserId = 4;
+        
 
         public EfUserService(PopraviDbContext context) : base(context) { }
 
-        public PagedResponse<UserDto> GetAllUsers(int pageNumber, int perPage = 2)
+        public PagedResponse<UserDto> GetAll(int pageNumber, int perPage = 2)
         {
             var numberOfUsers = Context.Users.Count();
             var totalPages = Math.Ceiling((double)numberOfUsers / perPage);
@@ -43,7 +43,7 @@ namespace Popravi.Business.Services.EfServices
             };
         }
 
-        public void RegisterUser(RegisterUserDto user)
+        public void Add(RegisterUserDto user)
         {
             var mailAlreadyExists = Context.Users.Where(u => u.Email == user.Email).Any();
 
@@ -62,7 +62,7 @@ namespace Popravi.Business.Services.EfServices
                 Email = user.Email,
                 Username = user.UserName,
                 Password = user.Password,
-                RoleId = EfUserService.RoleUserId,
+                RoleId = Role.UserRoleId,
                 ActivationCode = user.Uuid
             };
 
@@ -110,7 +110,7 @@ namespace Popravi.Business.Services.EfServices
             return null;
         }
 
-        public UserDto FindById(int id)
+        public UserDto Find(int id)
         {
             var user = Context.Users.Find(id);
             if(user != null)
@@ -128,7 +128,7 @@ namespace Popravi.Business.Services.EfServices
             throw new EntityNotFoundException($"Ne postoji korisnik.");
         }
 
-        public void UpdateUser(UserDto dto, int id)
+        public void Update(int id, UserDto dto)
         {
             var user = Context.Users.Where(u => u.Id == id).FirstOrDefault();
 
@@ -175,5 +175,14 @@ namespace Popravi.Business.Services.EfServices
             }
         }
 
+        public IEnumerable<UserDto> GetAll()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Delete(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

@@ -1,15 +1,19 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Popravi.DataAccess.Entities;
 using Popravi.DataAccess.EntityConfigurations;
+using System;
 
 namespace Popravi.DataAccess
 {
     public class PopraviDbContext : DbContext
     {
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        public PopraviDbContext()
         {
-            optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-NLBHN6H\SQLEXPRESS;Initial Catalog=Popravi;Integrated Security=True");
+
         }
+
+        public PopraviDbContext(DbContextOptions options) : base(options) { }
+        
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -19,6 +23,9 @@ namespace Popravi.DataAccess
             modelBuilder.ApplyConfiguration(new AddressConfiguration());
             modelBuilder.ApplyConfiguration(new LocationConfiguration());
             modelBuilder.ApplyConfiguration(new MalfunctionConfiguration());
+
+            modelBuilder.Entity<Role>().HasData(new Role { Id = Role.UserRoleId, Name = "User", CreatedAt = DateTime.Now, IsActive = true });
+            modelBuilder.Entity<Role>().HasData(new Role { Id = Role.AdminRoleId, Name = "Admin", CreatedAt = DateTime.Now, IsActive = true });
         }
             
         public DbSet<Role> Roles { get; set; }

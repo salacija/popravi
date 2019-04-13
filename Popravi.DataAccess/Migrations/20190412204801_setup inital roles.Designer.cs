@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Popravi.DataAccess;
 
 namespace Popravi.DataAccess.Migrations
 {
     [DbContext(typeof(PopraviDbContext))]
-    partial class PopraviDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190412204801_setup inital roles")]
+    partial class setupinitalroles
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

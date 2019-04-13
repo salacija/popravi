@@ -15,7 +15,7 @@ namespace Popravi.Business.Services.EfServices
     {
         public EfMalfunctionService(PopraviDbContext context) : base(context) { }
 
-        public PagedResponse<MalfunctionDto> GetAllMalfunctions(int pageNumber, int perPage = 5)
+        public PagedResponse<MalfunctionDto> GetAll(int pageNumber, int perPage = 5)
         {
             var ukupno = Context.MalFunctions.Count();
             var ukupanBrojStranica = Math.Ceiling((double)ukupno / perPage);
@@ -37,7 +37,7 @@ namespace Popravi.Business.Services.EfServices
 
  
 
-        public void DeleteMalfunction(int id)
+        public void Delete(int id)
         {
             var malfunction = Context.MalFunctions.Find(id);
 
@@ -50,7 +50,7 @@ namespace Popravi.Business.Services.EfServices
                 throw new EntityNotFoundException("Trazen kvar ne postoji.");
         }
 
-        public void AddMalfunction(MalfunctionDto dto)
+        public void Add(MalfunctionDto dto)
         {
             if (Context.MalFunctions.Any(m => m.Name.ToLower() == dto.Name.ToLower()))
                 throw new EntityAlreadyExistsException("Kvar pod ovim nazivom vec postoji.");
@@ -62,7 +62,7 @@ namespace Popravi.Business.Services.EfServices
             Context.SaveChanges();
         }
 
-        public MalfunctionDto FindMalfunction(int id)
+        public MalfunctionDto Find(int id)
         {
             var malfunction = Context.MalFunctions.Find(id);
             if(malfunction != null)
@@ -74,7 +74,7 @@ namespace Popravi.Business.Services.EfServices
             throw new EntityNotFoundException("Trazeni kvar ne postoji.");
         }
 
-        public void UpdateMalfunction(int id, MalfunctionDto dto)
+        public void Update(int id, MalfunctionDto dto)
         {
             var malfunction = Context.MalFunctions.Where(m => m.Id == id).FirstOrDefault();
 
@@ -86,6 +86,11 @@ namespace Popravi.Business.Services.EfServices
             }
             else
                 throw new EntityNotFoundException("Trazeni kvar ne postoji.");
+        }
+
+        public IEnumerable<MalfunctionDto> GetAll()
+        {
+            throw new NotImplementedException();
         }
     }
 }

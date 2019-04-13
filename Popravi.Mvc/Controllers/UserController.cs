@@ -20,17 +20,16 @@ namespace Popravi.Mvc.Controllers
 {
     public class UserController : Controller
     {
-        IUserService service;
+        private readonly IUserService _service;
 
-        public UserController()
+        public UserController(IUserService service)
         {
-            var context = new PopraviDbContext();
-            service = new EfUserService(context);
+            _service = service;
         }
 
         public IActionResult Index(int pageNumber = 1)
         {
-            var usersDto = service.GetAllUsers(pageNumber, 2);
+            var usersDto = _service.GetAll(pageNumber, 2);
             var vm = new UsersViewModel();
             vm.Users = usersDto;
 
@@ -54,7 +53,7 @@ namespace Popravi.Mvc.Controllers
                 var password = PasswordGenerator.Make(user.Password);
                 user.Password = password;
 
-                service.RegisterUser(user);
+                _service.Add(user);
 
                 using (var message = new MailMessage())
                 {
@@ -89,7 +88,7 @@ namespace Popravi.Mvc.Controllers
             
             try
             {
-                service.ActivateUser(dto.Code);
+                _service.ActivateUser(dto.Code);
                 ViewBag.Message = "Uspesna aktivacija profila.";
             }
             catch(UserAlreadyActiveException)
@@ -113,7 +112,7 @@ namespace Popravi.Mvc.Controllers
             if (HttpContext.Session.Keys.Contains("User"))
             {
                 var user = HttpContext.Session.Get<LoggedUserDto>("User");
-                var result = service.FindById(user.Id);
+                var result = _service.Find(user.Id);
                 return View(result);
             }
             return RedirectToAction("index"); 
@@ -125,7 +124,7 @@ namespace Popravi.Mvc.Controllers
             var user = HttpContext.Session.Get<LoggedUserDto>("User");
             if(user != null)
             {
-                var result = service.FindById(user.Id);
+                var result = _service.Find(user.Id);
                 return View(result);
             }
             else
@@ -143,7 +142,7 @@ namespace Popravi.Mvc.Controllers
             try
             {
                 var user = HttpContext.Session.Get<LoggedUserDto>("User");
-                service.UpdateUser(dto, user.Id);
+                _service.Update(user.Id, dto);
                 return RedirectToAction("profile");
             }
             catch
@@ -174,7 +173,7 @@ namespace Popravi.Mvc.Controllers
 
             var sifra = PasswordGenerator.Make(vm.OldPassword);
 
-            var result = service.IsOldPasswordCorrect(sifra, user.Id);
+            var result = _service.IsOldPasswordCorrect(sifra, user.Id);
 
             if (!result)
             {
@@ -192,7 +191,7 @@ namespace Popravi.Mvc.Controllers
             {
                 var password = PasswordGenerator.Make(vm.NewPassword);
 
-                service.UpdateUserPassword(password, user.Id);
+                _service.UpdateUserPassword(password, user.Id);
                 TempData["success"] = "Uspesno izmenjena loznika.";
                 return RedirectToAction("profile");
             }
@@ -214,7 +213,7 @@ namespace Popravi.Mvc.Controllers
         {
             var password = PasswordGenerator.Make(user.Password);
 
-            var result = service.FindUser(user.UserName, password);
+            var result = _service.FindUser(user.UserName, password);
             //Da bi koristili sesiju, u Startup.cs smo dodali services.AddSession() i app.UseSession()
             //Pored toga dodali smo klasu SessionExtensions.cs u Popravi.Mvc osnovnom (root - ne wwwroot) folderu
             if(result != null)
